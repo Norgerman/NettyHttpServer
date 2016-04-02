@@ -20,7 +20,6 @@ internal fun HttpResponse.setTransferEncodingChunked() {
 }
 
 internal fun HttpResponse.setContentRange(first: Long, count: Long, totalLength: Long) {
-
     this.headers().add(HttpHeaders.Names.CONTENT_RANGE, "bytes $first-${first + count - 1}/$totalLength");
     this.setContentLength(count);
 }

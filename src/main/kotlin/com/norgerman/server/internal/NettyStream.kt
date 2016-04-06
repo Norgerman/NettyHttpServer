@@ -12,7 +12,8 @@ import java.io.*
  * Reference to https://github.com/Kotlin/ktor/blob/master/ktor-hosts/ktor-netty/src/org/jetbrains/ktor/netty/NettyAsyncStream.kt
  */
 internal class NettyStream(val request: HttpRequest, val context: ChannelHandlerContext) : OutputStream() {
-    private val buffer = context.alloc().buffer(8192);
+    private val buffer = context.alloc().buffer(8192)
+
     private var lastContentWritten = false;
 
     init {
@@ -68,11 +69,13 @@ internal class NettyStream(val request: HttpRequest, val context: ChannelHandler
             context.writeAndFlush(DefaultHttpContent(buffer.copy()));
             buffer.writerIndex(0);
         }
+
     }
 
     override fun close() {
         flush();
         finish();
+        buffer.release();
     }
 
     private fun finish() {
